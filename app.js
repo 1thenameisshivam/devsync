@@ -23,7 +23,7 @@ app.get("/user", async (req, res) => {
     }
     res.status(200).send(user);
   } catch (err) {
-    res.status(400).send("somthing went wrong");
+    res.status(400).send(err.message);
   }
 });
 
@@ -32,7 +32,7 @@ app.get("/feed", async (req, res) => {
     const users = await User.find({});
     res.status(200).send(users);
   } catch (err) {
-    res.status(400).send("somthing went wrong");
+    res.status(400).send(err.message);
   }
 });
 
@@ -42,7 +42,26 @@ app.delete("/user", async (req, res) => {
     await User.findByIdAndDelete(id);
     res.status(200).send("user deleted successfully");
   } catch (err) {
-    res.status(400).send("somthing went wrong");
+    res.status(400).send(err.message);
+  }
+});
+
+app.patch("/user/:id", async (req, res) => {
+  const { id } = req.params;
+  const ALLOWED_FIELDS = ["about", "gender", "age", "photoUrl", "skills"];
+  const isUpdateAllowed = Object.keys(req.body).every((key) =>
+    ALLOWED_FIELDS.includes(key)
+  );
+  if (!isUpdateAllowed) {
+    return res.status(400).send("Invalid fields for update");
+  }
+  try {
+    await User.findByIdAndUpdate({ _id: id }, req.body, {
+      runValidators: true,
+    });
+    res.status(200).send("user updated successfully");
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 
