@@ -6,9 +6,9 @@ export const isAuthenticated = async (req, res, next) => {
     return res.status(401).send("Please authenticate");
   }
   try {
-    const decodeObj = await jwt.verify(token, "devSync@1234");
+    const decodeObj = jwt.verify(token, "devSync@1234");
     const { _id } = decodeObj;
-    const user = await User.findById(_id);
+    const user = await User.findById(_id).select("+password");
     if (!user) {
       throw new Error("Please authenticate");
     }
