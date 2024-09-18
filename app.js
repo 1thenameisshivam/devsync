@@ -1,15 +1,43 @@
 import express from "express";
 import { DataBase } from "./src/config/DataBase.js";
 import User from "./src/models/user.js";
+import { loginValidation, signupValidation } from "./src/utils/validation.js";
+import bcrypt from "bcrypt";
 const app = express();
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
+  const { password, firstName, lastName, email } = req.body;
   try {
+    signupValidation(req);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+    });
     await user.save();
     res.status(201).send("user added successfully");
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    loginValidation(req);
+    const user = await User.find({ email }).select("+password");
+    if (user.length === 0) {
+      return res.status(404).send("Invalid credentials");
+    }
+    const isMatch = await bcrypt.compare(password, user[0].password);
+    if (!isMatch) {
+      return res.status(401).send("Invalid credentials");
+    }
+    res.status(200).send("Login successful");
   } catch (err) {
     res.status(400).send(err.message);
   }
