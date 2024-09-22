@@ -1,10 +1,10 @@
 import express from "express";
 import { DataBase } from "./src/config/DataBase.js";
-import User from "./src/models/user.js";
 import cookieParser from "cookie-parser";
-
 import authRouter from "./src/routes/auth.js";
 import profileRouter from "./src/routes/profile.js";
+import connectionRouter from "./src/routes/connection.js";
+import requestApproveRouter from "./src/routes/requestApprove.js";
 const app = express();
 
 app.use(express.json());
@@ -12,6 +12,8 @@ app.use(cookieParser());
 
 app.use("/", authRouter);
 app.use("/profile", profileRouter);
+app.use("/request/send", connectionRouter);
+app.use("/review/send", requestApproveRouter);
 
 DataBase()
   .then(() => {
