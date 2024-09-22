@@ -5,6 +5,7 @@ import authRouter from "./src/routes/auth.js";
 import profileRouter from "./src/routes/profile.js";
 import connectionRouter from "./src/routes/connection.js";
 import requestApproveRouter from "./src/routes/requestApprove.js";
+import userRouter from "./src/routes/userRouter.js";
 const app = express();
 
 app.use(express.json());
@@ -14,7 +15,7 @@ app.use("/", authRouter);
 app.use("/profile", profileRouter);
 app.use("/request/send", connectionRouter);
 app.use("/review/send", requestApproveRouter);
-
+app.use("/user", userRouter);
 DataBase()
   .then(() => {
     console.log("Database connected");
