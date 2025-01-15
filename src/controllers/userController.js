@@ -36,8 +36,11 @@ export const userConnections = async (req, res) => {
     }
 
     const data = users.map((user) =>
-      user.fromUser._id === _id ? user.toUser : user.fromUser
+      user.fromUser._id.toString() === _id.toString()
+        ? user.toUser
+        : user.fromUser
     );
+
     res.status(200).send(data);
   } catch (err) {
     res.status(500).send({ message: err.message, status: false });
@@ -65,7 +68,7 @@ export const userFeed = async (req, res) => {
         { _id: { $ne: { _id } } },
       ],
     })
-      .select("firstName lastName email about photoUrl age createdAt")
+      .select("firstName _id lastName email about photoUrl age createdAt")
       .skip(skip)
       .limit(limit);
     res.status(200).send(data);

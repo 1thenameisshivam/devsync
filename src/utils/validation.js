@@ -14,7 +14,14 @@ export const loginValidation = (req) => {
 };
 
 export const updateProfileValidation = (req) => {
-  const ALLOWED_VALIDATION = ["gender", "age", "photoUrl", "skills", "about"];
+  const ALLOWED_VALIDATION = [
+    "gender",
+    "lastName",
+    "age",
+    "photoUrl",
+    "skills",
+    "about",
+  ];
   const isUpdateAllowed = Object.keys(req.body).every((key) =>
     ALLOWED_VALIDATION.includes(key)
   );

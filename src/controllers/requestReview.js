@@ -1,14 +1,14 @@
 import ConnectionRequest from "../models/connectionRequest.js";
 const requestReview = async (req, res) => {
   try {
-    const { _id } = req.user;
+    const toUser = req.user._id;
     const { requestId, status } = req.params;
     if (!["accepted", "rejected"].includes(status)) {
       throw new Error("Invalid status type");
     }
     const existingConnection = await ConnectionRequest.findOne({
       _id: requestId,
-      toUser: _id,
+      toUser,
       status: "interested",
     });
 
