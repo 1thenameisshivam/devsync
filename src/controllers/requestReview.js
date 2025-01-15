@@ -9,7 +9,7 @@ const requestReview = async (req, res) => {
     const existingConnection = await ConnectionRequest.findOne({
       _id: requestId,
       toUser: _id,
-      status,
+      status: "interested",
     });
 
     if (!existingConnection) {

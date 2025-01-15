@@ -21,7 +21,7 @@ export const updateProfile = async (req, res) => {
     await user.save();
     res
       .status(200)
-      .send({ message: "Profile updated successfully", status: true });
+      .send({ message: "Profile updated successfully", user, status: true });
   } catch (err) {
     res.status(400).send({ message: err.message, status: false });
   }

@@ -3,7 +3,9 @@ import User from "../models/user.js";
 export const isAuthenticated = async (req, res, next) => {
   const { token } = req.cookies;
   if (!token) {
-    return res.status(401).send("Please authenticate");
+    return res
+      .status(401)
+      .json({ message: "Please authenticate", status: 401 });
   }
   try {
     const decodeObj = jwt.verify(token, "devSync@1234");

@@ -6,7 +6,10 @@ export const userRequests = async (req, res) => {
     const users = await ConnectionRequest.find({
       toUser: _id,
       status: "interested",
-    }).populate("fromUser", "firstName lastName email createdAt");
+    }).populate(
+      "fromUser",
+      "firstName lastName photoUrl gender email createdAt"
+    );
     if (!users) {
       throw new Error("No request found");
     }
@@ -53,14 +56,16 @@ export const userFeed = async (req, res) => {
       $or: [{ fromUser: _id }, { toUser: _id }],
     }).select("fromUser toUser");
     const hideUser = new Set();
-    allUsers.forEach((user) => hideUser.add(user.fromUser).add(user.toUser));
+    allUsers.forEach((user) =>
+      hideUser.add(user.fromUser.toString()).add(user.toUser.toString())
+    );
     const data = await User.find({
       $and: [
         { _id: { $nin: Array.from(hideUser) } },
         { _id: { $ne: { _id } } },
       ],
     })
-      .select("firstName lastName email createdAt")
+      .select("firstName lastName email about photoUrl age createdAt")
       .skip(skip)
       .limit(limit);
     res.status(200).send(data);
