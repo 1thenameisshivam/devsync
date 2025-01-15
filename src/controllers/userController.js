@@ -26,8 +26,8 @@ export const userConnections = async (req, res) => {
       ],
       status: "accepted",
     })
-      .populate("fromUser", "firstName lastName email createdAt")
-      .populate("toUser", "firstName lastName email createdAt");
+      .populate("fromUser", "firstName lastName email about photoUrl createdAt")
+      .populate("toUser", "firstName lastName email about photoUrl createdAt");
     if (!users) {
       throw new Error("No connection found");
     }

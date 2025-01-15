@@ -2,7 +2,7 @@ import validator from "validator";
 export const signupValidation = (req) => {
   const { firstName, lastName, email, password } = req.body;
   if (!firstName || !email || !password) {
-    throw new Error("All fields are required");
+    throw new "All fields are required"();
   }
 };
 
@@ -14,7 +14,7 @@ export const loginValidation = (req) => {
 };
 
 export const updateProfileValidation = (req) => {
-  const ALLOWED_VALIDATION = ["gender", "age", "photoUrl", "skills"];
+  const ALLOWED_VALIDATION = ["gender", "age", "photoUrl", "skills", "about"];
   const isUpdateAllowed = Object.keys(req.body).every((key) =>
     ALLOWED_VALIDATION.includes(key)
   );

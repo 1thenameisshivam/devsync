@@ -6,8 +6,15 @@ import profileRouter from "./src/routes/profile.js";
 import connectionRouter from "./src/routes/connection.js";
 import requestApproveRouter from "./src/routes/requestApprove.js";
 import userRouter from "./src/routes/userRouter.js";
+import cors from "cors";
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 

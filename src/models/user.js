@@ -66,7 +66,7 @@ const userSchema = new mongoose.Schema(
       default:
         "https://st.depositphotos.com/1779253/5140/v/450/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg",
       validate(value) {
-        if (!validator.isURL(value)) {
+        if (value && !validator.isURL(value)) {
           throw new Error("Photo URL is invalid");
         }
       },

@@ -16,7 +16,9 @@ export const signUp = async (req, res) => {
     await user.save();
     const token = await user.jwtToken();
     res.cookie("token", token);
-    res.status(201).send({ message: "user added successfully", status: true });
+    res
+      .status(201)
+      .send({ message: "user added successfully", status: true, user });
   } catch (err) {
     res.status(400).send({ message: err.message, status: false });
   }
@@ -41,7 +43,11 @@ export const login = async (req, res) => {
     }
     const token = await user[0].jwtToken();
     res.cookie("token", token);
-    res.status(200).send({ message: "Login successful", sucess: true });
+    res.status(200).send({
+      message: "Login successful",
+      status: true,
+      user,
+    });
   } catch (err) {
     res.status(400).send({ message: err.message, status: false });
   }
