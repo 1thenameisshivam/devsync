@@ -9,6 +9,7 @@ export const {
   FRONTEND_URL,
   RAZORPAY_KEY_ID,
   RAZORPAY_SECRET,
+  WEB_HOOK_SECRET,
 } = process.env;
 
 export const membershipTypes = {
