@@ -8,6 +8,7 @@ import requestApproveRouter from "./src/routes/requestApprove.js";
 import userRouter from "./src/routes/userRouter.js";
 import cors from "cors";
 import { FRONTEND_URL, PORT } from "./src/utils/constant.js";
+import paymentRouter from "./src/routes/payment.js";
 const app = express();
 
 app.use(
@@ -24,6 +25,7 @@ app.use("/profile", profileRouter);
 app.use("/request/send", connectionRouter);
 app.use("/review/send", requestApproveRouter);
 app.use("/user", userRouter);
+app.use("/payment", paymentRouter);
 DataBase()
   .then(() => {
     console.log("Database connected");
