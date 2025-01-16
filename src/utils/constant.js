@@ -10,3 +10,8 @@ export const {
   RAZORPAY_KEY_ID,
   RAZORPAY_SECRET,
 } = process.env;
+
+export const membershipTypes = {
+  silver: 700,
+  gold: 1000,
+};

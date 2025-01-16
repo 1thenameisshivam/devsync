@@ -1,15 +1,20 @@
 import { razorpayInstance } from "../utils/razorpayInstance.js";
 import PaymentDetails from "../models/paymenyDetails.js";
+import { membershipTypes, RAZORPAY_KEY_ID } from "../utils/constant.js";
 export const createOrder = async (req, res) => {
   try {
+    const { membershipType } = req.body;
+    const { firstName, lastName, email } = req.user;
+
     const order = await razorpayInstance.orders.create({
-      amount: 7000,
+      amount: membershipTypes[membershipType] * 100,
       currency: "INR",
       receipt: "receipt_1",
       notes: {
-        firstName: "John",
-        lastName: "Doe",
-        membershipType: "Pro Plan",
+        firstName,
+        lastName,
+        email,
+        membershipType: membershipType,
       },
     });
 
@@ -24,7 +29,9 @@ export const createOrder = async (req, res) => {
     });
 
     const savePaymentDetails = await payment.save();
-    res.status(200).json({ ...savePaymentDetails.toJSON() });
+    res
+      .status(200)
+      .json({ ...savePaymentDetails.toJSON(), keyId: RAZORPAY_KEY_ID });
   } catch (err) {
     res.status(500).send({ message: err, status: false });
   }
