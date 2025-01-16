@@ -7,11 +7,12 @@ import connectionRouter from "./src/routes/connection.js";
 import requestApproveRouter from "./src/routes/requestApprove.js";
 import userRouter from "./src/routes/userRouter.js";
 import cors from "cors";
+import { FRONTEND_URL, PORT } from "./src/utils/constant.js";
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );
@@ -26,8 +27,8 @@ app.use("/user", userRouter);
 DataBase()
   .then(() => {
     console.log("Database connected");
-    app.listen(3000, () => {
-      console.log("Server is running on port 3000");
+    app.listen(PORT || 3000, () => {
+      console.log("Server is running on port " + PORT || 3000);
     });
   })
   .catch((err) => {

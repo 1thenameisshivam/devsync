@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { JWT_SECRET } from "../utils/constant.js";
 //Password Strength Libraries: You can use third-party libraries like zxcvbn or password-validator to measure the strength of the password and enforce stronger security rules.
 const userSchema = new mongoose.Schema(
   {
@@ -85,7 +86,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.jwtToken = async function () {
   const user = this;
-  const token = await jwt.sign({ _id: user._id }, "devSync@1234", {
+  const token = await jwt.sign({ _id: user._id }, JWT_SECRET, {
     expiresIn: "7d",
   });
   return token;
