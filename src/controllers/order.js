@@ -73,3 +73,17 @@ export const verifySignature = async (req, res) => {
     res.status(500).send({ message: err, status: false });
   }
 };
+
+export const premiumStatus = async (req, res) => {
+  try {
+    const user = req.user.isPremium;
+    if (user) {
+      return res.status(200).send({ message: "User is premium", status: true });
+    }
+    return res
+      .status(200)
+      .send({ message: "User is not premium", status: false });
+  } catch (err) {
+    res.status(500).send({ message: err, status: false });
+  }
+};
