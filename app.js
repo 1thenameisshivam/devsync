@@ -9,6 +9,7 @@ import userRouter from "./src/routes/userRouter.js";
 import cors from "cors";
 import { FRONTEND_URL, PORT } from "./src/utils/constant.js";
 import paymentRouter from "./src/routes/payment.js";
+import "./src/utils/cronjobs.js";
 const app = express();
 
 app.use(
