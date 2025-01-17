@@ -87,6 +87,9 @@ const userSchema = new mongoose.Schema(
     membershipType: {
       type: String,
     },
+    membershipTime: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

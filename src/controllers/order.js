@@ -1,6 +1,7 @@
 import { razorpayInstance } from "../utils/razorpayInstance.js";
 import PaymentDetails from "../models/paymenyDetails.js";
 import {
+  membershipTime,
   membershipTypes,
   RAZORPAY_KEY_ID,
   WEB_HOOK_SECRET,
@@ -63,10 +64,14 @@ export const verifySignature = async (req, res) => {
       orderId: paymentinfo.order_id,
     });
     payment.status = paymentinfo.status;
+    const duration = membershipTime[payment.notes.membershipType]; // Gold: 3 months, Silver: 1 month
+    const expiryDate = new Date();
+    expiryDate.setMonth(expiryDate.getMonth() + duration);
     await payment.save();
     const user = await User.findById(payment.userId);
     user.membershipType = payment.notes.membershipType;
     user.isPremium = true;
+    user.membershipTime = expiryDate;
     await user.save();
     return res.status(200).send({ message: "Webhook verified", status: true });
   } catch (err) {

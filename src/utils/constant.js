@@ -16,3 +16,8 @@ export const membershipTypes = {
   silver: 700,
   gold: 1000,
 };
+
+export const membershipTime = {
+  silver: 1,
+  gold: 3,
+};
