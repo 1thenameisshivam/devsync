@@ -9,9 +9,13 @@ import userRouter from "./src/routes/userRouter.js";
 import cors from "cors";
 import { FRONTEND_URL, PORT } from "./src/utils/constant.js";
 import paymentRouter from "./src/routes/payment.js";
+import http from "http";
 import "./src/utils/cronjobs.js";
+import initializeSocket from "./src/utils/socket.js";
 const app = express();
 
+const server = http.createServer(app);
+initializeSocket(server);
 app.use(
   cors({
     origin: FRONTEND_URL,
@@ -30,7 +34,7 @@ app.use("/payment", paymentRouter);
 DataBase()
   .then(() => {
     console.log("Database connected");
-    app.listen(PORT || 3000, () => {
+    server.listen(PORT || 3000, () => {
       console.log("Server is running on port " + PORT || 3000);
     });
   })
