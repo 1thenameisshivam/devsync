@@ -25,6 +25,10 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("Healthy Server Response from Server : " + PORT || 3000);
+});
+
 app.use("/", authRouter);
 app.use("/profile", profileRouter);
 app.use("/request/send", connectionRouter);

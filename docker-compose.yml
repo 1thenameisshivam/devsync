@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    volumes:
+      - devsyncV:/data/db
+    networks:
+      - two-tier
+
+  dev-sync-backend:
+    build:
+      context: .
+    container_name: dev-sync-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/devsync
+    networks:
+      - two-tier
+    depends_on:
+      - mongodb
+
+volumes:
+  devsyncV:
+networks:
+  two-tier:
